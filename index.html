@@ -38,6 +38,41 @@
       opacity: 0.6;
     }
 
+    /* ── PARTICLES ── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(193,127,90,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ── HERO ── */
     .hero {
       min-height: 100svh;
       display: flex;
@@ -47,6 +82,7 @@
       padding: 2rem;
       position: relative;
       text-align: center;
+      z-index: 10;
     }
 
     .hero::after {
@@ -61,8 +97,8 @@
     }
 
     @keyframes pulseDown {
-      0%, 100% { opacity: 0.2; transform: translateX(-50%) scaleY(1); }
-      50% { opacity: 0.8; transform: translateX(-50%) scaleY(1.15); }
+      0%, 100% { opacity: 0.2; height: 60px; }
+      50%       { opacity: 0.9; height: 90px; }
     }
 
     .hero-eyebrow {
@@ -88,6 +124,13 @@
     .hero-title em {
       font-style: italic;
       color: var(--accent);
+      display: inline-block;
+      animation: fadeUp 1.2s ease forwards 0.6s, shimmer 4s ease-in-out infinite 2s;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { text-shadow: 0 0 20px rgba(193,127,90,0); }
+      50%       { text-shadow: 0 0 40px rgba(193,127,90,0.4), 0 0 80px rgba(193,127,90,0.15); }
     }
 
     .hero-sub {
@@ -100,22 +143,42 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── SECTIONS ── */
     section {
       max-width: 680px;
       margin: 0 auto;
       padding: 6rem 2rem;
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+      position: relative;
+      z-index: 10;
     }
 
     section.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    section.visible::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6rem;
+      width: 2px;
+      height: 0;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: growLine 1.2s ease forwards 0.3s;
+      border-radius: 2px;
+    }
+
+    @keyframes growLine {
+      from { height: 0; opacity: 0; }
+      to   { height: 60%; opacity: 0.5; }
     }
 
     .label {
@@ -124,7 +187,11 @@
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 1.8rem;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.4s;
     }
+
+    section.visible .label { opacity: 1; }
 
     p {
       font-family: 'Cormorant Garamond', serif;
@@ -138,6 +205,7 @@
 
     .italic { font-style: italic; color: var(--brown); }
 
+    /* ── DIVIDER ── */
     .divider {
       display: flex;
       align-items: center;
@@ -147,6 +215,8 @@
       padding: 0 2rem;
       opacity: 0;
       transition: opacity 1s ease 0.2s;
+      position: relative;
+      z-index: 10;
     }
     .divider.visible { opacity: 1; }
     .divider::before, .divider::after {
@@ -154,18 +224,26 @@
       flex: 1;
       height: 1px;
       background: var(--warm);
+      transform: scaleX(0);
+      transition: transform 1s ease 0.4s;
+      transform-origin: center;
     }
+    .divider.visible::before,
+    .divider.visible::after { transform: scaleX(1); }
     .divider span {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
       color: var(--accent);
+      display: inline-block;
+      animation: rotateStar 8s linear infinite;
+    }
+    @keyframes rotateStar {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
-    .closing {
-      text-align: center;
-      padding-bottom: 8rem;
-    }
-
+    /* ── CLOSING ── */
+    .closing { text-align: center; padding-bottom: 8rem; }
     .closing p { font-size: clamp(1.5rem, 4vw, 2.2rem); }
 
     .signature {
@@ -175,14 +253,25 @@
       font-size: 1rem;
       color: var(--muted);
       letter-spacing: 0.1em;
+      opacity: 0;
+      transition: opacity 1s ease 1s;
+    }
+    .closing.visible .signature {
+      opacity: 1;
+      animation: breathe 4s ease-in-out infinite 1s;
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
     }
 
+    /* ── BG TEXT ── */
     .bg-text {
       position: fixed;
       font-family: 'Cormorant Garamond', serif;
       font-size: 18vw;
       font-weight: 300;
-      color: rgba(193, 127, 90, 0.03);
+      color: rgba(193, 127, 90, 0.025);
       white-space: nowrap;
       pointer-events: none;
       user-select: none;
@@ -190,8 +279,58 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      animation: bgMorph 18s ease-in-out infinite;
+    }
+    @keyframes bgMorph {
+      0%   { transform: translate(-50%, -50%) scale(1)    rotate(0deg);    opacity: 0.6; letter-spacing: 0em; }
+      20%  { transform: translate(-48%, -52%) scale(1.06) rotate(-1deg);   opacity: 1;   letter-spacing: 0.05em; }
+      40%  { transform: translate(-52%, -49%) scale(0.96) rotate(1.5deg);  opacity: 0.4; letter-spacing: -0.02em; }
+      60%  { transform: translate(-50%, -53%) scale(1.08) rotate(-0.5deg); opacity: 0.9; letter-spacing: 0.08em; }
+      80%  { transform: translate(-47%, -50%) scale(0.98) rotate(1deg);    opacity: 0.5; letter-spacing: 0.02em; }
+      100% { transform: translate(-50%, -50%) scale(1)    rotate(0deg);    opacity: 0.6; letter-spacing: 0em; }
     }
 
+    .bg-text-2 {
+      position: fixed;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18vw;
+      font-weight: 300;
+      color: rgba(193, 127, 90, 0.012);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: bgMorph2 22s ease-in-out infinite reverse;
+      filter: blur(2px);
+    }
+    @keyframes bgMorph2 {
+      0%   { transform: translate(-50%, -50%) scale(1.1)  rotate(2deg);   opacity: 0.5; letter-spacing: 0.1em; }
+      25%  { transform: translate(-53%, -51%) scale(1.18) rotate(-2deg);  opacity: 0.8; letter-spacing: 0.15em; }
+      50%  { transform: translate(-49%, -48%) scale(1.05) rotate(3deg);   opacity: 0.3; letter-spacing: 0.05em; }
+      75%  { transform: translate(-51%, -53%) scale(1.15) rotate(-1deg);  opacity: 0.7; letter-spacing: 0.12em; }
+      100% { transform: translate(-50%, -50%) scale(1.1)  rotate(2deg);   opacity: 0.5; letter-spacing: 0.1em; }
+    }
+
+    /* ── TYPEWRITER ── */
+    .typewriter-p { position: relative; }
+    .cursor-blink {
+      display: inline-block;
+      color: var(--accent);
+      font-style: normal;
+      animation: blinkCursor 0.8s step-end infinite;
+      margin-left: 1px;
+      opacity: 0;
+    }
+    .cursor-blink.active { opacity: 1; }
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── MUSIC BTN ── */
     .music-btn {
       position: fixed;
       bottom: 2rem;
@@ -209,7 +348,20 @@
       border-radius: 2px;
       transition: all 0.3s ease;
     }
-    .music-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .music-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(193,127,90,0.3);
+    }
+    .music-btn.playing {
+      border-color: rgba(193,127,90,0.5);
+      animation: pulseBorder 2s ease-in-out infinite;
+    }
+    @keyframes pulseBorder {
+      0%, 100% { box-shadow: 0 0 0px rgba(193,127,90,0); }
+      50%       { box-shadow: 0 0 12px rgba(193,127,90,0.25); }
+    }
 
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -218,11 +370,14 @@
 </head>
 <body>
 
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic">
     <source src="assets/song/ksl.mp3" type="audio/mpeg">
   </audio>
 
+  <div id="particles"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
   <div class="bg-text">maaf</div>
+  <div class="bg-text-2">maaf</div>
 
   <div class="hero">
     <div class="hero-eyebrow">ada yang mau aku bilang ke kamu</div>
@@ -259,10 +414,7 @@
       aku malah milih diem. bukan karena nggak peduli.
       tapi karena aku gagal di hal yang paling simpel: hadir.
     </p>
-    <p>
-      maaf. bukan karena harus ngomong maaf.
-      tapi karena kamu emang layak denger itu.
-    </p>
+    <p class="typewriter-p" data-text="maaf. bukan karena harus ngomong maaf. tapi karena kamu emang layak denger itu."><span class="typewriter-text"></span><span class="cursor-blink">|</span></p>
   </section>
 
   <div class="divider"><span>✦</span></div>
@@ -311,9 +463,7 @@
       dan tiap kali itu terjadi, selalu ada satu titik
       di mana aku sadar — aku terlambat.
     </p>
-    <p class="italic">
-      aku nggak mau titik itu dateng lagi. bukan sama kamu.
-    </p>
+    <p class="italic typewriter-p" data-text="aku nggak mau titik itu dateng lagi. bukan sama kamu."><span class="typewriter-text"></span><span class="cursor-blink">|</span></p>
     <p>
       bukan karena takut sendirian —
       tapi karena orang kayak kamu nggak dateng dua kali.
@@ -339,7 +489,7 @@
       maaf ya, Sintia.<br>
       bukan dengan kata-kata yang gampang —<br>
       tapi dengan rasa yang nggak pernah kemana-mana.<br>
-      <span class="italic">dan nggak akan kemana-mana.</span>
+      <span class="italic typewriter-p" data-text="dan nggak akan kemana-mana."><span class="typewriter-text"></span><span class="cursor-blink">|</span></span>
     </p>
     <div class="signature">— dengan tulus, Putra</div>
   </section>
@@ -347,6 +497,31 @@
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶</button>
 
   <script>
+    // ── PARTICLES ──
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 2.5 + 1;
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size}px;
+        animation-duration: ${Math.random() * 15 + 10}s;
+        animation-delay: ${Math.random() * 10}s;
+        --drift: ${(Math.random() - 0.5) * 120}px;
+      `;
+      container.appendChild(p);
+    }
+
+    // ── CURSOR GLOW ──
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    // ── SCROLL REVEAL ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('visible');
@@ -355,17 +530,60 @@
 
     document.querySelectorAll('section, .divider').forEach(el => observer.observe(el));
 
+    // ── MUSIC ──
+    const audio = document.getElementById('bgMusic');
+    const btn   = document.getElementById('musicBtn');
+
+    audio.addEventListener('ended', () => {
+      audio.currentTime = 0;
+      audio.play();
+    });
+
     function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      const btn = document.getElementById('musicBtn');
       if (audio.paused) {
         audio.play();
         btn.textContent = '⏸';
+        btn.classList.add('playing');
       } else {
         audio.pause();
         btn.textContent = '▶';
+        btn.classList.remove('playing');
       }
     }
+
+    // ── TYPEWRITER ──
+    function typewrite(el) {
+      const text = el.dataset.text;
+      const span = el.querySelector('.typewriter-text');
+      const cursor = el.querySelector('.cursor-blink');
+      if (!text || !span) return;
+
+      let i = 0;
+      span.textContent = '';
+      cursor.classList.add('active');
+
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          span.textContent += text[i];
+          i++;
+          if (i >= text.length) {
+            clearInterval(interval);
+            setTimeout(() => cursor.classList.remove('active'), 1200);
+          }
+        }, 38);
+      }, 400);
+    }
+
+    const twObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !e.target.dataset.typed) {
+          e.target.dataset.typed = 'true';
+          typewrite(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.typewriter-p').forEach(el => twObserver.observe(el));
   </script>
 </body>
 </html>
