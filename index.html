@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Untuk Sintia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --warm: #e8ddd0;
+      --brown: #6b4c3b;
+      --dark: #2a1f1a;
+      --muted: #9e8878;
+      --accent: #c17f5a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.5;
+    }
+
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: pulseDown 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDown {
+      0%, 100% { opacity: 0.3; transform: translateX(-50%) scaleY(1); }
+      50% { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--dark);
+      opacity: 0;
+      animation: fadeUp 1.2s ease forwards 0.6s;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+    }
+
+    p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.25rem, 3vw, 1.6rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--dark);
+    }
+
+    p + p { margin-top: 1.4em; }
+
+    .italic { font-style: italic; color: var(--brown); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      opacity: 0;
+      transition: opacity 1s ease 0.2s;
+    }
+    .divider.visible { opacity: 1; }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--warm);
+    }
+    .divider span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+
+    .closing {
+      text-align: center;
+      padding-bottom: 8rem;
+    }
+
+    .closing p {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+    }
+
+    .signature {
+      margin-top: 3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .bg-text {
+      position: fixed;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18vw;
+      font-weight: 300;
+      color: rgba(107, 76, 59, 0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .music-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 99;
+      background: var(--warm);
+      border: 1px solid rgba(107,76,59,0.15);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .music-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" loop>
+    <source src="assets/song/ksl.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="bg-text">maaf</div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">ada yang mau aku bilang ke kamu</div>
+    <h1 class="hero-title">Untuk<br><em>Sintia</em></h1>
+    <p class="hero-sub">dari aku, yang masih di sini dan masih peduli.</p>
+  </div>
+
+  <section class="s1">
+    <div class="label">001 — yang aku inget</div>
+    <p>
+      aku inget kamu bukan dari hal-hal yang besar.
+      tapi dari hal kecil yang kamu lakuin tanpa kamu sadar.
+    </p>
+    <p class="italic">
+      waktu aku magang, kerjaan numpuk, aku udah mau nyerah —
+      kamu ada. nemenin, dengerin, nggak kemana-mana.
+    </p>
+    <p>
+      itu nggak aku lupain, Sintia.
+      meski banyak hal yang udah berubah.
+    </p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <section class="s2">
+    <div class="label">002 — yang aku sesalin</div>
+    <p>
+      aku tau kamu nunggu. aku tau rasanya nungguin orang
+      yang harusnya ada, tapi nggak muncul-muncul.
+    </p>
+    <p class="italic">
+      waktu kamu sakit, mungkin kamu diem-diem pengen ada yang chat —
+      aku malah milih diem. bukan karena nggak peduli.
+      tapi karena aku gagal di hal yang paling simpel: hadir.
+    </p>
+    <p>
+      maaf. bukan karena harus ngomong maaf.
+      tapi karena kamu emang layak denger itu.
+    </p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <section class="s3">
+    <div class="label">003 — yang sebenernya</div>
+    <p>
+      tiap kali aku yang chat duluan, bukan berarti aku lebih butuh kamu —
+      itu berarti aku <span class="italic">mau</span> kamu ada di hariku.
+    </p>
+    <p>
+      tapi aku lupa nunjukkinnya. aku lupa bahwa hadir itu
+      bukan soal siapa yang mulai duluan —
+      tapi soal siapa yang beneran ada.
+    </p>
+    <p class="italic">
+      dan kamu udah beneran ada. lebih dari yang pernah aku akuin.
+    </p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <section class="s4">
+    <div class="label">004 — yang mau aku minta</div>
+    <p>
+      aku nggak minta kamu balik kayak dulu —
+      itu bukan hak aku buat minta.
+    </p>
+    <p class="italic">
+      aku cuma minta satu kesempatan lagi
+      buat buktiin aku nggak seburuk yang keliatan dari diem-diemku.
+    </p>
+    <p>
+      karena kamu — yang selalu ada waktu aku butuh,
+      yang mau dengerin bahkan waktu kamu sendiri lagi nggak baik-baik aja —
+      kamu nggak pantas dapet seseorang yang setengah-setengah.
+    </p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <section class="s5">
+    <div class="label">005 — yang paling aku takutin</div>
+    <p>
+      aku pernah kehilangan orang yang aku sayang.
+      dan tiap kali itu terjadi, selalu ada satu titik
+      di mana aku sadar — aku terlambat.
+    </p>
+    <p class="italic">
+      aku nggak mau titik itu dateng lagi. bukan sama kamu.
+    </p>
+    <p>
+      bukan karena takut sendirian —
+      tapi karena orang kayak kamu nggak dateng dua kali.
+      dan aku hampir nggak sadar itu.
+    </p>
+    <p class="italic">
+      kamu bukan orang yang kebetulan ada di hidupku.
+      kamu orang yang aku pilih. yang aku mau terus pilih —
+      kalau kamu masih mau ngasih aku kesempatan itu.
+    </p>
+    <p>
+      jadi tolong, Sintia —
+      jangan pergi dulu. aku masih di sini.
+      dan kali ini, aku nggak bakal diem.
+    </p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <section class="closing">
+    <div class="label">— terakhir</div>
+    <p>
+      maaf ya, Sintia.<br>
+      bukan dengan kata-kata yang gampang —<br>
+      tapi dengan rasa yang nggak pernah kemana-mana.<br>
+      <span class="italic">dan nggak akan kemana-mana.</span>
+    </p>
+    <div class="signature">— dengan tulus, Putra</div>
+  </section>
+
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶</button>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('section, .divider').forEach(el => observer.observe(el));
+
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const btn = document.getElementById('musicBtn');
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = '⏸';
+      } else {
+        audio.pause();
+        btn.textContent = '▶';
+      }
+    }
+  </script>
+</body>
+</html>
