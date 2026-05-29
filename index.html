@@ -9,33 +9,33 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream: #f5f0e8;
-      --warm: #e8ddd0;
-      --brown: #6b4c3b;
-      --dark: #2a1f1a;
-      --muted: #9e8878;
+      --bg: #0e0c0b;
+      --surface: #161412;
+      --dark: #f0ebe3;
+      --muted: #6b5e54;
       --accent: #c17f5a;
+      --warm: #2a2320;
+      --brown: #d4a882;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--cream);
+      background-color: var(--bg);
       color: var(--dark);
       font-family: 'DM Sans', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
-      cursor: default;
     }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 100;
-      opacity: 0.5;
+      opacity: 0.6;
     }
 
     .hero {
@@ -61,12 +61,11 @@
     }
 
     @keyframes pulseDown {
-      0%, 100% { opacity: 0.3; transform: translateX(-50%) scaleY(1); }
-      50% { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
+      0%, 100% { opacity: 0.2; transform: translateX(-50%) scaleY(1); }
+      50% { opacity: 0.8; transform: translateX(-50%) scaleY(1.15); }
     }
 
     .hero-eyebrow {
-      font-family: 'DM Sans', sans-serif;
       font-size: 0.7rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
@@ -167,9 +166,7 @@
       padding-bottom: 8rem;
     }
 
-    .closing p {
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-    }
+    .closing p { font-size: clamp(1.5rem, 4vw, 2.2rem); }
 
     .signature {
       margin-top: 3rem;
@@ -185,7 +182,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 18vw;
       font-weight: 300;
-      color: rgba(107, 76, 59, 0.04);
+      color: rgba(193, 127, 90, 0.03);
       white-space: nowrap;
       pointer-events: none;
       user-select: none;
@@ -201,7 +198,7 @@
       right: 2rem;
       z-index: 99;
       background: var(--warm);
-      border: 1px solid rgba(107,76,59,0.15);
+      border: 1px solid rgba(193,127,90,0.2);
       color: var(--muted);
       font-family: 'DM Sans', sans-serif;
       font-size: 0.65rem;
@@ -212,10 +209,10 @@
       border-radius: 2px;
       transition: all 0.3s ease;
     }
-    .music-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .music-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
     ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 2px; }
   </style>
 </head>
